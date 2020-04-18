@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Assets
 {
-    sealed class AIVision
+    public sealed class AIVision
     {
         public float ActiveDis = 10;
         public float ActiveAng = 35;
@@ -19,19 +19,25 @@ namespace Assets
 
         private bool CheckBloked(Transform player, Transform target)
         {
-            var hit2d = Physics2D.Linecast(player.position, target.position);
+            Vector2 target2d = target.position;
+            Vector2 player2d = player.position;
 
-            Debug.Log(hit2d);
+            var hit2d = Physics2D.Linecast(target2d, player2d, 3);
+            //Debug.Log(hit2d.collider);
 
-            if (hit2d.transform == null) return true;
-            return hit2d.transform != target;
+            if (hit2d.transform != null) return true;
+            return false;
         }
 
         private bool Angle(Transform player, Transform target)
         {
-            var angle = Vector3.Angle(player.forward, target.position - player.position);
+            Vector2 target2d = target.position;
+            Vector2 player2d = player.position;
 
-            Debug.Log(angle);
+            var angle = Vector2.Angle(target.up, player2d - target2d);
+
+            //Debug.Log("angle: " + angle);
+            //Debug.Log(target.up);
 
             return angle <= ActiveAng;
         }
@@ -39,11 +45,17 @@ namespace Assets
         private bool Dist(Transform player, Transform target)
         {
             //var dist = Vector3.Distance(player.position, target.position); //todo оптимизация
-            Vector3 offset = target.position - player.position;
+            Vector2 target2d = target.position;
+            Vector2 player2d = player.position;
 
-            Debug.Log(offset);
+            Vector2 offset = player2d - target2d;
+
+            //Debug.Log(offset.sqrMagnitude);
 
             float sqrLen = offset.sqrMagnitude;
+
+            //Debug.Log("Dist: " + (sqrLen <= ActiveDis * ActiveDis));
+
             return sqrLen <= ActiveDis * ActiveDis;
         }
     }

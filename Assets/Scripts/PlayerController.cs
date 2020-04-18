@@ -30,13 +30,13 @@ public class PlayerController : MonoBehaviour
         //rotate
         if(MoveX*MoveX > MoveY* MoveY)
         {
-            if (MoveX > 0) _sprite.rotation = new Quaternion(0, 0, -90, 90);
-            else if (MoveX < 0) _sprite.rotation = new Quaternion(0, 0, 90, 90);
+            //if (MoveX > 0) _sprite.rotation = new Quaternion(0, 0, -90, 90);
+            //else if (MoveX < 0) _sprite.rotation = new Quaternion(0, 0, 90, 90);
         }
         else
         {
-            if (MoveY > 0) _sprite.rotation = new Quaternion(0, 0, 0, 0);
-            else if (MoveY < 0) _sprite.rotation = new Quaternion(0, 0, 180, 0);
+            //if (MoveY > 0) _sprite.rotation = new Quaternion(0, 0, 0, 0);
+            //else if (MoveY < 0) _sprite.rotation = new Quaternion(0, 0, 180, 0);
         }
 
         //if (Input.GetMouseButtonDown(0))
