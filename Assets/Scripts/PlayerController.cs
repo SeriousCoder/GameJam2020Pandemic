@@ -39,17 +39,17 @@ public class PlayerController : MonoBehaviour
             else if (MoveY < 0) _sprite.rotation = new Quaternion(0, 0, 180, 0);
         }
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            //RaycastHit2D raycast2d = Physics2D.Raycast(new Vector2(Input.mousePosition.x, Input.mousePosition.y), Vector2.up*500);
-            //Debug.Log(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
-            //Debug.Log(raycast2d.collider);
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    //RaycastHit2D raycast2d = Physics2D.Raycast(new Vector2(Input.mousePosition.x, Input.mousePosition.y), Vector2.up*500);
+        //    //Debug.Log(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
+        //    //Debug.Log(raycast2d.collider);
 
-            Vector3 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 point2d = new Vector2(point.x, point.y);
-            RaycastHit2D raycast2d = Physics2D.Raycast(point2d, point2d);
-            Debug.Log(raycast2d.collider);
-        }
+        //    Vector3 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //    Vector2 point2d = new Vector2(point.x, point.y);
+        //    RaycastHit2D raycast2d = Physics2D.Raycast(point2d, point2d);
+        //    Debug.Log(raycast2d.collider);
+        //}
 
         //battery
         _currentCharge -= Time.deltaTime;
