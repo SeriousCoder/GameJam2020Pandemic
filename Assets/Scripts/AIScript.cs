@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Assets;
 using UnityEngine;
@@ -17,7 +18,6 @@ public class AIScript : MonoBehaviour
         idle
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         mainCamera = Camera.main;
@@ -31,25 +31,36 @@ public class AIScript : MonoBehaviour
         agent.updateUpAxis = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        //Debug.Log(player.transform.position);
-        //Debug.Log(transform.position);
-        //Debug.Log(vision);
-
         if (vision.VisionM(player.transform, transform))
         {
-            //transform.LookAt(player.transform);
-
             Vector2 direction = new Vector2(player.transform.position.x - transform.position.x, player.transform.position.y - transform.position.y);
             transform.up = direction;
-
-            //transform.Rotate(new Vector3(0, 0, ((player.transform.position - transform.position)/2).z));
-
-            //Debug.Log(transform.up);
-            //Debug.DrawLine(transform.position, transform.up);
             agent.SetDestination(player.transform.position);
+        }
+
+        DrawRadiusObzora();
+    }
+
+    private void DrawRadiusObzora()
+    {
+        float j = 0;
+        int rays = 6;
+        float angle = vision.ActiveAng;
+        float distance = vision.ActiveDis;
+        for (int i = 0; i < rays; i++)
+        {
+            var x = Mathf.Sin(j);
+            var y = Mathf.Cos(j);
+
+            j += angle * Mathf.Deg2Rad / rays;
+
+            Vector3 dir = transform.TransformDirection(new Vector3(x, y, 0));
+            Debug.DrawRay(transform.position, dir * distance, Color.red);
+            dir = transform.TransformDirection(new Vector3(-x, y, 0));
+            Debug.DrawRay(transform.position, dir * distance, Color.red);
+
         }
     }
 }
