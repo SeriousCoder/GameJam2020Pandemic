@@ -21,6 +21,8 @@ namespace Assets
         {
             var hit2d = Physics2D.Linecast(player.position, target.position);
 
+            Debug.Log(hit2d);
+
             if (hit2d.transform == null) return true;
             return hit2d.transform != target;
         }
@@ -28,6 +30,9 @@ namespace Assets
         private bool Angle(Transform player, Transform target)
         {
             var angle = Vector3.Angle(player.forward, target.position - player.position);
+
+            Debug.Log(angle);
+
             return angle <= ActiveAng;
         }
 
@@ -35,6 +40,9 @@ namespace Assets
         {
             //var dist = Vector3.Distance(player.position, target.position); //todo оптимизация
             Vector3 offset = target.position - player.position;
+
+            Debug.Log(offset);
+
             float sqrLen = offset.sqrMagnitude;
             return sqrLen <= ActiveDis * ActiveDis;
         }
