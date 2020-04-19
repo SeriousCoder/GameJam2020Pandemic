@@ -151,6 +151,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57970156a51541044ac37d35c6221f03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 0
+  moveSpots: []
+  randomSpot: 0
+  defWaitTime: 5
+  waitTime: 0
+  rotationSpeed: 1.5
+  defChaseTime: 5
+  state: 0
 --- !u!50 &638446741946201140
 Rigidbody2D:
   serializedVersion: 4

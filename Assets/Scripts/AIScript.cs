@@ -19,7 +19,9 @@ public class AIScript : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private Transform[] moveSpots;
     [SerializeField] private int randomSpot;
-    private Transform initPos;
+    
+    private Vector3 initPos;
+    private Quaternion initRot;
 
     [SerializeField] private float defWaitTime = 5.0f;
     [SerializeField] private float waitTime;
@@ -46,7 +48,9 @@ public class AIScript : MonoBehaviour
         player = GameObject.FindWithTag("Player");
 
         vision = new AIVision();
-        initPos = transform;
+
+        initPos = transform.position;
+        initRot = transform.rotation;
 
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
@@ -68,10 +72,14 @@ public class AIScript : MonoBehaviour
                     SetDestinationToPoint(moveSpots[randomSpot], true);
                     waitTime = defWaitTime;
                 }
-                else
+
+                SetDestinationToPoint(initPos, true);
+
+                if (Vector2.Distance(initPos, transform.position) < 0.1f)
                 {
-                    SetDestinationToPoint(initPos, true);
+                    transform.rotation = Quaternion.Lerp(transform.rotation, initRot, Time.deltaTime * rotationSpeed);
                 }
+
                 break;
             case BotState.Patrol:
                 //Debug.Log(Vector2.Distance(moveSpots[randomSpot].position, transform.position));
@@ -139,6 +147,18 @@ public class AIScript : MonoBehaviour
         }
 
         agent.SetDestination(target.position);
+    }
+
+    private void SetDestinationToPoint(Vector3 target, bool lookAt = false)
+    {
+        if (lookAt)
+        {
+            Vector2 direction = new Vector2(target.x - transform.position.x,
+                target.y - transform.position.y);
+            transform.up = Vector3.Lerp(transform.up, direction, Time.deltaTime * rotationSpeed);
+        }
+
+        agent.SetDestination(target);
     }
 
     private void LookAtPoint(Vector3 point)
