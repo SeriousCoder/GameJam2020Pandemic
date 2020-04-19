@@ -100,11 +100,11 @@ public class PlayerController : MonoBehaviour
 
     public void GetCharge(float charge)
     {
-        _currentCharge -= charge;
+        _currentCharge += charge;
     }
 
     public void GetHeal(float hp)
     {
-        _currentHP -= hp;
+        _currentHP += hp;
     }
 }
