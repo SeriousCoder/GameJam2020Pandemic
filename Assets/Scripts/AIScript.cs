@@ -19,9 +19,12 @@ public class AIScript : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private Transform[] moveSpots;
     [SerializeField] private int randomSpot;
+    private Transform initPos;
 
     [SerializeField] private float defWaitTime = 5.0f;
     [SerializeField] private float waitTime;
+
+    [SerializeField] private float rotationSpeed;
     
     [SerializeField] private float defChaseTime = 5.0f;
     private float chaseTime;
@@ -43,6 +46,7 @@ public class AIScript : MonoBehaviour
         player = GameObject.FindWithTag("Player");
 
         vision = new AIVision();
+        initPos = transform;
 
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
@@ -57,10 +61,17 @@ public class AIScript : MonoBehaviour
         switch (state)
         {
             case BotState.Idle:
-                state = BotState.Patrol;
-                randomSpot = Random.Range(0, moveSpots.Length);
-                SetDestinationToPoint(moveSpots[randomSpot]);
-                waitTime = defWaitTime;
+                if (moveSpots.Length > 0)
+                {
+                    state = BotState.Patrol;
+                    randomSpot = Random.Range(0, moveSpots.Length);
+                    SetDestinationToPoint(moveSpots[randomSpot], true);
+                    waitTime = defWaitTime;
+                }
+                else
+                {
+                    SetDestinationToPoint(initPos, true);
+                }
                 break;
             case BotState.Patrol:
                 //Debug.Log(Vector2.Distance(moveSpots[randomSpot].position, transform.position));
@@ -74,6 +85,7 @@ public class AIScript : MonoBehaviour
                     }
                     else
                     {
+                        transform.up = Vector3.Lerp(transform.up, moveSpots[randomSpot].rotation.eulerAngles, Time.deltaTime * rotationSpeed);
                         waitTime -= Time.deltaTime;
                     }
                 }
@@ -102,14 +114,10 @@ public class AIScript : MonoBehaviour
 
         if (vision.VisionM(player.transform, transform))
         {
-            Vector2 direction = new Vector2(player.transform.position.x - transform.position.x, player.transform.position.y - transform.position.y);
-            transform.up = direction;
-            agent.SetDestination(player.transform.position);
-
             lastPlayerPos = player.transform.position;
             state = BotState.Alarm;
 
-            SetDestinationToPoint(player.transform);
+            SetDestinationToPoint(player.transform, true);
         }
 
         //for (int i = 0; i < agent.path.corners.Length - 1; i++)
@@ -121,17 +129,23 @@ public class AIScript : MonoBehaviour
         DrawVisionRadius();
     }
 
-    private void SetDestinationToPoint(Transform target)
+    private void SetDestinationToPoint(Transform target, bool lookAt = false)
     {
-        Vector2 direction = new Vector2(target.position.x - transform.position.x, target.position.y - transform.position.y);
-        transform.up = direction;
+        if (lookAt)
+        {
+            Vector2 direction = new Vector2(target.position.x - transform.position.x,
+                target.position.y - transform.position.y);
+            transform.up = Vector3.Lerp(transform.up, direction, Time.deltaTime * rotationSpeed);
+        }
+
         agent.SetDestination(target.position);
     }
 
     private void LookAtPoint(Vector3 point)
     {
-        Vector2 direction = new Vector2(point.x - transform.position.x, point.y - transform.position.y);
-        transform.up = direction;
+        Vector2 direction = new Vector2(point.x - transform.position.x,
+            point.y - transform.position.y);
+        transform.up = Vector3.Lerp(transform.up, direction, Time.deltaTime * rotationSpeed);
     }
 
     private void DrawVisionRadius()
@@ -140,6 +154,24 @@ public class AIScript : MonoBehaviour
         int rays = 6;
         float angle = vision.ActiveAng;
         float distance = vision.ActiveDis;
+        for (int i = 0; i < rays; i++)
+        {
+            var x = Mathf.Sin(j);
+            var y = Mathf.Cos(j);
+
+            j += angle * Mathf.Deg2Rad / rays;
+
+            Vector3 dir = transform.TransformDirection(new Vector3(x, y, 0));
+            Debug.DrawRay(transform.position, dir * distance, Color.red);
+            dir = transform.TransformDirection(new Vector3(-x, y, 0));
+            Debug.DrawRay(transform.position, dir * distance, Color.red);
+
+        }
+
+        j = 0;
+        rays = 12;
+        angle = 180;
+        distance = vision.ActiveRad;
         for (int i = 0; i < rays; i++)
         {
             var x = Mathf.Sin(j);
