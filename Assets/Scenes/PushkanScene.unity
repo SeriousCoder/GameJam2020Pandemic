@@ -258,6 +258,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bot
       objectReference: {fileID: 0}
+    - target: {fileID: 638446741946201138, guid: 29a2aa57cf8d4274fae03ee42d286238,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 638446741946201139, guid: 29a2aa57cf8d4274fae03ee42d286238,
         type: 3}
       propertyPath: m_LocalPosition.x

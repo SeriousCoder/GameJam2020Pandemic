@@ -15,6 +15,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _timeConfused = 0.9f;
     private float _currentTimeConfused = 0f;
 
+    [SerializeField] private Animator animator;
+
     void Start()
     {
         getBombed = false;
@@ -45,17 +47,21 @@ public class PlayerController : MonoBehaviour
             float MoveX = Input.GetAxis("Horizontal");
             float MoveY = Input.GetAxis("Vertical");
             _rb.velocity = new Vector2(MoveX * _speed, MoveY * _speed);
+
+            animator.SetFloat("Speed", _rb.velocity.sqrMagnitude);
+            animator.SetFloat("Horizontal", MoveX);
+            animator.SetFloat("Vertical", MoveY);
             //rotate
-            if (MoveX * MoveX > MoveY * MoveY)
-            {
-                if (MoveX > 0) _sprite.rotation = new Quaternion(0, 0, -90, 90);
-                else if (MoveX < 0) _sprite.rotation = new Quaternion(0, 0, 90, 90);
-            }
-            else
-            {
-                if (MoveY > 0) _sprite.rotation = new Quaternion(0, 0, 0, 0);
-                else if (MoveY < 0) _sprite.rotation = new Quaternion(0, 0, 180, 0);
-            }
+            //if (MoveX * MoveX > MoveY * MoveY)
+            //{
+            //    if (MoveX > 0) _sprite.rotation = new Quaternion(0, 0, -90, 90);
+            //    else if (MoveX < 0) _sprite.rotation = new Quaternion(0, 0, 90, 90);
+            //}
+            //else
+            //{
+            //    if (MoveY > 0) _sprite.rotation = new Quaternion(0, 0, 0, 0);
+            //    else if (MoveY < 0) _sprite.rotation = new Quaternion(0, 0, 180, 0);
+            //}
         }
         
         
