@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _maxCharge = 100;
     private Rigidbody2D _rb;
     private Transform _sprite;
-    public bool getBombed;
+    public bool getConfused;
     [SerializeField] private float _timeConfused = 0.9f;
     private float _currentTimeConfused = 0f;
 
@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        getBombed = false;
+        getConfused = false;
         _currentHP = _maxHP;
         _currentCharge = _maxCharge;
         _rb = GetComponent<Rigidbody2D>();
@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
 
-        if (getBombed)
+        if (getConfused)
         {
             if (_currentTimeConfused < _timeConfused)
             {
@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
             else
             {
                 _currentTimeConfused = 0f;
-                getBombed = false;
+                getConfused = false;
             }
         }
         else

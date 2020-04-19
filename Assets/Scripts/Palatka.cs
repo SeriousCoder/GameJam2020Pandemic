@@ -10,7 +10,7 @@ public class Palatka : MonoBehaviour
         {
             PlayerController PlayerController = collision.gameObject.GetComponent<PlayerController>();
             PlayerController.transform.position = transform.position;
-            PlayerController.getBombed = true;
+            PlayerController.getConfused = true;
             PlayerController.transform.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
         }
     }

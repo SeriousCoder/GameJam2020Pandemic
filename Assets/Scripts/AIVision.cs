@@ -12,10 +12,11 @@ namespace Assets
         public float ActiveDis = 6;
         public float ActiveAng = 35;
         public float ActiveRad = 2;
+        public float ActiveAng2 = 145;
 
         public bool VisionM(Transform player, Transform target)
         {
-            return (Dist(player, target, ActiveDis) && Angle(player, target) || Dist(player, target, ActiveRad)) && !CheckBloked(player, target);
+            return (Dist(player, target, ActiveDis) && Angle(player, target, ActiveAng) || Dist(player, target, ActiveRad) && Angle(player, target, ActiveAng2)) && !CheckBloked(player, target);
         }
 
         private bool CheckBloked(Transform player, Transform target)
@@ -29,14 +30,14 @@ namespace Assets
             return false;
         }
 
-        private bool Angle(Transform player, Transform target)
+        private bool Angle(Transform player, Transform target, float Angle)
         {
             Vector2 target2d = target.position;
             Vector2 player2d = player.position;
 
             var angle = Vector2.Angle(target.up, player2d - target2d);
 
-            return angle <= ActiveAng;
+            return angle <= Angle;
         }
 
         private bool Dist(Transform player, Transform target, float Dis)

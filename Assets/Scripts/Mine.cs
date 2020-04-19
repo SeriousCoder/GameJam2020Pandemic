@@ -51,9 +51,14 @@ public class Mine : MonoBehaviour
         if(rb.CompareTag("Player"))
         {
             PlayerController Player = rb.GetComponent<PlayerController>();
-            Player.getBombed = true;
+            Player.getConfused = true;
             Player.GetDamage(_damage);
         }
-        rb.AddForce(Mathf.Lerp(0, explosionForce, (1 - explosionDistance)) * explosionDir, mode);
+        if (rb.CompareTag("Enemy"))
+        {
+            AIScript Player = rb.GetComponent<AIScript>();
+            Player.GetDamage(_damage);
+        }
+            rb.AddForce(Mathf.Lerp(0, explosionForce, (1 - explosionDistance)) * explosionDir, mode);
     }
 }

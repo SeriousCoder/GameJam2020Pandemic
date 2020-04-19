@@ -32,6 +32,12 @@ public class AIScript : MonoBehaviour
     private float chaseTime;
     [SerializeField] private BotState state;
     private Vector3 lastPlayerPos;
+    public bool getConfused;
+    [SerializeField] private float _timeConfused = 3f;
+    private float _currentTimeConfused = 0f;
+    ParticleSystem particleSystem;
+
+    [SerializeField] float _currentHP = 20;
 
     enum BotState
     {
@@ -58,82 +64,127 @@ public class AIScript : MonoBehaviour
 
         randomSpot = Random.Range(0, moveSpots.Length);
         state = BotState.Idle;
+
+        getConfused = false;
+        particleSystem = GetComponent<ParticleSystem>();
+        particleSystem.Stop();
+
+        
     }
 
+    public void GetDamage(float damage)
+    {
+        _currentHP -= damage;
+        if (_currentHP <= 0)
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        transform.Find("DeadSprite").gameObject.active = true;
+        transform.Find("Sprite").gameObject.active = false;
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        rb.isKinematic = true;
+        rb.velocity = Vector2.zero;
+        GetComponent<BoxCollider2D>().enabled = false;
+        if (particleSystem.isPlaying) particleSystem.Stop();
+
+    }
+    
     void Update()
     {
-        switch (state)
+        if (_currentHP <= 0) return;
+        if (getConfused)
         {
-            case BotState.Idle:
-                if (moveSpots.Length > 0)
-                {
-                    state = BotState.Patrol;
-                    randomSpot = Random.Range(0, moveSpots.Length);
-                    SetDestinationToPoint(moveSpots[randomSpot], true);
-                    waitTime = defWaitTime;
-                }
+            if(particleSystem.isStopped) particleSystem.Play();
+            if (_currentTimeConfused < _timeConfused)
+            {
+                _currentTimeConfused += Time.deltaTime;
+            }
+            else
+            {
+                _currentTimeConfused = 0f;
+                getConfused = false;
+                if (particleSystem.isPlaying) particleSystem.Stop();
+            }
+        }
+        else
+        {
 
-                SetDestinationToPoint(initPos, true);
-
-                if (Vector2.Distance(initPos, transform.position) < 0.1f)
-                {
-                    transform.rotation = Quaternion.Lerp(transform.rotation, initRot, Time.deltaTime * rotationSpeed);
-                }
-
-                break;
-            case BotState.Patrol:
-                //Debug.Log(Vector2.Distance(moveSpots[randomSpot].position, transform.position));
-                if (Vector2.Distance(moveSpots[randomSpot].position, transform.position) < 0.1f)
-                {
-                    if (waitTime <= 0)
+            switch (state)
+            {
+                case BotState.Idle:
+                    if (moveSpots.Length > 0)
                     {
+                        state = BotState.Patrol;
                         randomSpot = Random.Range(0, moveSpots.Length);
-                        SetDestinationToPoint(moveSpots[randomSpot]);
+                        SetDestinationToPoint(moveSpots[randomSpot], true);
                         waitTime = defWaitTime;
+                    }
+
+                    SetDestinationToPoint(initPos, true);
+
+                    if (Vector2.Distance(initPos, transform.position) < 0.1f)
+                    {
+                        transform.rotation = Quaternion.Lerp(transform.rotation, initRot, Time.deltaTime * rotationSpeed);
+                    }
+
+                    break;
+                case BotState.Patrol:
+                    //Debug.Log(Vector2.Distance(moveSpots[randomSpot].position, transform.position));
+                    if (Vector2.Distance(moveSpots[randomSpot].position, transform.position) < 0.1f)
+                    {
+                        if (waitTime <= 0)
+                        {
+                            randomSpot = Random.Range(0, moveSpots.Length);
+                            SetDestinationToPoint(moveSpots[randomSpot]);
+                            waitTime = defWaitTime;
+                        }
+                        else
+                        {
+                            transform.up = Vector3.Lerp(transform.up, moveSpots[randomSpot].rotation.eulerAngles, Time.deltaTime * rotationSpeed);
+                            waitTime -= Time.deltaTime;
+                        }
+                    }
+                    SetDestinationToPoint(moveSpots[randomSpot]);
+
+                    break;
+                case BotState.Alarm:
+                    //Debug.Log(Vector2.Distance(lastPlayerPos, transform.position));
+                    if (Vector2.Distance(lastPlayerPos, transform.position) < 0.1f)
+                    {
+                        state = BotState.Chase;
+                        chaseTime = defChaseTime;
+                    }
+                    break;
+                case BotState.Chase:
+                    if (chaseTime > 0.0)
+                    {
+                        chaseTime -= Time.deltaTime;
                     }
                     else
                     {
-                        transform.up = Vector3.Lerp(transform.up, moveSpots[randomSpot].rotation.eulerAngles, Time.deltaTime * rotationSpeed);
-                        waitTime -= Time.deltaTime;
+                        state = BotState.Idle;
                     }
-                }
-                SetDestinationToPoint(moveSpots[randomSpot]);
+                    break;
+            }
 
-                break;
-            case BotState.Alarm:
-                //Debug.Log(Vector2.Distance(lastPlayerPos, transform.position));
-                if (Vector2.Distance(lastPlayerPos, transform.position) < 0.1f)
-                {
-                    state = BotState.Chase;
-                    chaseTime = defChaseTime;
-                }
-                break;
-            case BotState.Chase:
-                if (chaseTime > 0.0)
-                {
-                    chaseTime -= Time.deltaTime;
-                }
-                else
-                {
-                    state = BotState.Idle;
-                }
-                break;
+            if (vision.VisionM(player.transform, transform))
+            {
+                lastPlayerPos = player.transform.position;
+                state = BotState.Alarm;
+
+                SetDestinationToPoint(player.transform, true);
+            }
+
+            //for (int i = 0; i < agent.path.corners.Length - 1; i++)
+            //{
+            //    Debug.DrawLine(agent.path.corners[i], agent.path.corners[i + 1], Color.red);
+            //}
+            if (agent.path.corners.Length > 1) LookAtPoint(agent.path.corners[1]);
         }
-
-        if (vision.VisionM(player.transform, transform))
-        {
-            lastPlayerPos = player.transform.position;
-            state = BotState.Alarm;
-
-            SetDestinationToPoint(player.transform, true);
-        }
-
-        //for (int i = 0; i < agent.path.corners.Length - 1; i++)
-        //{
-        //    Debug.DrawLine(agent.path.corners[i], agent.path.corners[i + 1], Color.red);
-        //}
-        if (agent.path.corners.Length > 1) LookAtPoint(agent.path.corners[1]);
-
         DrawVisionRadius();
     }
 
@@ -190,7 +241,7 @@ public class AIScript : MonoBehaviour
 
         j = 0;
         rays = 12;
-        angle = 180;
+        angle = 145;
         distance = vision.ActiveRad;
         for (int i = 0; i < rays; i++)
         {
@@ -204,6 +255,16 @@ public class AIScript : MonoBehaviour
             dir = transform.TransformDirection(new Vector3(-x, y, 0));
             Debug.DrawRay(transform.position, dir * distance, Color.red);
 
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            PlayerController PlayerController = collision.gameObject.GetComponent<PlayerController>();
+            //PlayerController.StartAnimation(); //Стартовать анимацию оглушения
+            getConfused = true;
         }
     }
 }
