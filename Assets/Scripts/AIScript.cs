@@ -62,5 +62,23 @@ public class AIScript : MonoBehaviour
             Debug.DrawRay(transform.position, dir * distance, Color.red);
 
         }
+
+        j = 0;
+        rays = 12;
+        angle = 180;
+        distance = vision.ActiveRad;
+        for (int i = 0; i < rays; i++)
+        {
+            var x = Mathf.Sin(j);
+            var y = Mathf.Cos(j);
+
+            j += angle * Mathf.Deg2Rad / rays;
+
+            Vector3 dir = transform.TransformDirection(new Vector3(x, y, 0));
+            Debug.DrawRay(transform.position, dir * distance, Color.red);
+            dir = transform.TransformDirection(new Vector3(-x, y, 0));
+            Debug.DrawRay(transform.position, dir * distance, Color.red);
+
+        }
     }
 }
