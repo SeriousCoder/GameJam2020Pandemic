@@ -100,11 +100,13 @@ public class PlayerController : MonoBehaviour
 
     public void GetCharge(float charge)
     {
-        _currentCharge -= charge;
+        if (_currentCharge + charge > _maxCharge) _currentCharge = _maxCharge;
+        else _currentCharge += charge;
     }
 
     public void GetHeal(float hp)
     {
-        _currentHP -= hp;
+        if (_currentHP + hp > _maxHP) _currentHP = _maxHP;
+        else _currentHP += hp;
     }
 }

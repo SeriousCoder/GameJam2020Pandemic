@@ -9,12 +9,13 @@ namespace Assets
 {
     public sealed class AIVision
     {
-        public float ActiveDis = 4;
+        public float ActiveDis = 6;
         public float ActiveAng = 35;
+        public float ActiveRad = 2;
 
         public bool VisionM(Transform player, Transform target)
         {
-            return Dist(player, target) && Angle(player, target) && !CheckBloked(player, target);
+            return (Dist(player, target, ActiveDis) && Angle(player, target) || Dist(player, target, ActiveRad)) && !CheckBloked(player, target);
         }
 
         private bool CheckBloked(Transform player, Transform target)
@@ -38,7 +39,7 @@ namespace Assets
             return angle <= ActiveAng;
         }
 
-        private bool Dist(Transform player, Transform target)
+        private bool Dist(Transform player, Transform target, float Dis)
         {
             Vector2 target2d = target.position;
             Vector2 player2d = player.position;
@@ -47,7 +48,7 @@ namespace Assets
 
             float sqrLen = offset.sqrMagnitude;
 
-            return sqrLen <= ActiveDis * ActiveDis;
+            return sqrLen <= Dis * Dis;
         }
     }
 }
