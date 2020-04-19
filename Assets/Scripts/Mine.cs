@@ -48,7 +48,7 @@ public class Mine : MonoBehaviour
     {
         var explosionDir = rb.position - explosionPosition;
         var explosionDistance = explosionDir.magnitude;
-        if(rb.tag == "Player")
+        if(rb.CompareTag("Player"))
         {
             PlayerController Player = rb.GetComponent<PlayerController>();
             Player.getBombed = true;

@@ -9,8 +9,8 @@ public class Health : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            PlayerController cloneController = collision.gameObject.GetComponent<PlayerController>();
-            cloneController.GetHeal(_hp);
+            PlayerController PlayerController = collision.gameObject.GetComponent<PlayerController>();
+            PlayerController.GetHeal(_hp);
             Destroy(gameObject);
         }
     }
