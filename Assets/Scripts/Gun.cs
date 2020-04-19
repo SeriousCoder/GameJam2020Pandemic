@@ -16,7 +16,7 @@ public class Gun : MonoBehaviour
 
     void Update()
     {
-        //Fire();
+        Fire();
         if (_currentCooldown <= _cooldown)
             _currentCooldown += Time.deltaTime;
     }

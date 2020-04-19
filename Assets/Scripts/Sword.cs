@@ -17,7 +17,7 @@ public class Sword : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Atack();
+        Atack();
         _currentCdDamage += Time.deltaTime;
     }
 

@@ -6,6 +6,7 @@ using UnityEngine;
 public class Mine : MonoBehaviour
 {
     public GameObject ExplosionPrefab;
+    [SerializeField] private float _damage = 20f;
     // Start is called before the first frame update
     void Start()
     {
@@ -49,7 +50,9 @@ public class Mine : MonoBehaviour
         var explosionDistance = explosionDir.magnitude;
         if(rb.tag == "Player")
         {
-            rb.GetComponent<PlayerController>().getBombed = true;
+            PlayerController Player = rb.GetComponent<PlayerController>();
+            Player.getBombed = true;
+            Player.GetDamage(_damage);
         }
         rb.AddForce(Mathf.Lerp(0, explosionForce, (1 - explosionDistance)) * explosionDir, mode);
     }
