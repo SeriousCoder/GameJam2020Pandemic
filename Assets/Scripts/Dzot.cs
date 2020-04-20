@@ -30,7 +30,7 @@ public class Dzot : MonoBehaviour
         player = GameObject.FindWithTag("Player");
         mainCamera = Camera.main;
         vision = new AIVision();
-        vision.ActiveAng = 90;
+        vision.ActiveAng = 180;
         vision.ActiveAng2 = 180;
         vision.ActiveDis = ActiveDis;
         vision.ActiveRad = 1;        
