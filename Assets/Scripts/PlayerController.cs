@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -14,6 +16,8 @@ public class PlayerController : MonoBehaviour
     public bool getConfused;
     [SerializeField] private float _timeConfused = 0.9f;
     private float _currentTimeConfused = 0f;
+    private Image GameOverPanel;
+    bool dead = false;
 
     [SerializeField] private Animator animator;
 
@@ -24,10 +28,21 @@ public class PlayerController : MonoBehaviour
         _currentCharge = _maxCharge;
         _rb = GetComponent<Rigidbody2D>();
         _sprite = transform.Find("Sprite");
+        GameOverPanel = transform.Find("Canvas").Find("GameOver").GetComponent<Image>();
     }
 
+    public void NewGame()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
     void Update()
     {
+        if (!dead && (_currentHP <= 0 || _currentCharge <= 0)) Die();
+        if(dead)
+        {
+            GameOverPanel.color = new Color(1f, 1f, 1f, GameOverPanel.color.a + 0.002f);
+        }
 
         if (getConfused)
         {
@@ -51,6 +66,8 @@ public class PlayerController : MonoBehaviour
             animator.SetFloat("Speed", _rb.velocity.sqrMagnitude);
             animator.SetFloat("Horizontal", MoveX);
             animator.SetFloat("Vertical", MoveY);
+
+            if(_rb.velocity.sqrMagnitude>0) FindObjectOfType<AudioManager>().Play("Step");
             //rotate
             //if (MoveX * MoveX > MoveY * MoveY)
             //{
@@ -82,6 +99,13 @@ public class PlayerController : MonoBehaviour
         //battery
         _currentCharge -= Time.deltaTime;
     }
+
+    void Die()
+    {
+        GameOverPanel.gameObject.active = true;
+        Time.timeScale = 0;
+        dead = true;
+    }
     
     public float GetCurrentHP()
     {
@@ -96,6 +120,7 @@ public class PlayerController : MonoBehaviour
     public void GetDamage(float damage)
     {
         _currentHP -= damage;
+        if (_currentHP <= 0) Die();
     }
 
     public void GetCharge(float charge)

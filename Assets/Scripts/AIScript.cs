@@ -38,6 +38,7 @@ public class AIScript : MonoBehaviour
     [SerializeField] private float _timeConfused = 3f;
     private float _currentTimeConfused = 0f;
     ParticleSystem particleSystem;
+    Weapon weapon;
 
     [SerializeField] float _currentHP = 20;
 
@@ -71,7 +72,7 @@ public class AIScript : MonoBehaviour
         particleSystem = GetComponent<ParticleSystem>();
         particleSystem.Stop();
 
-        
+        weapon = (transform.Find("Sword") ?? transform.Find("Gun")).GetComponent<Weapon>() as Weapon;
     }
 
     public void GetDamage(float damage)
@@ -161,6 +162,7 @@ public class AIScript : MonoBehaviour
                     break;
                 case BotState.Alarm:
                     //Debug.Log(Vector2.Distance(lastPlayerPos, transform.position));
+                    weapon.Fire();
                     if (Vector2.Distance(lastPlayerPos, transform.position) < 0.1f)
                     {
                         state = BotState.Chase;
@@ -271,17 +273,6 @@ public class AIScript : MonoBehaviour
             dir = transform.TransformDirection(new Vector3(-x, y, 0));
             Debug.DrawRay(transform.position, dir * distance, Color.red);
 
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            PlayerController PlayerController = collision.gameObject.GetComponent<PlayerController>();
-            //PlayerController.StartAnimation(); //Стартовать анимацию оглушения
-            getConfused = true;
-            FindObjectOfType<AudioManager>().Play("Strike");
         }
     }
 }

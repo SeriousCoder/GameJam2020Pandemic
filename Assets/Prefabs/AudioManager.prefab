@@ -81,3 +81,30 @@ MonoBehaviour:
     loop: 0
     mixerGroup: {fileID: 0}
     source: {fileID: 0}
+  - name: Step
+    clip: {fileID: 8300000, guid: a5f6907be1731af46882c05502cb50af, type: 3}
+    volume: 0.404
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0.5
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: Tent
+    clip: {fileID: 8300000, guid: 8b9d64bd61b93254bab333bc87f33805, type: 3}
+    volume: 1
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}
+  - name: Metal
+    clip: {fileID: 8300000, guid: 6c7dfb4a1438fd3468cbdb46885b9bb1, type: 3}
+    volume: 1
+    volumeVariance: 0
+    pitch: 1
+    pitchVariance: 0.5
+    loop: 0
+    mixerGroup: {fileID: 0}
+    source: {fileID: 0}

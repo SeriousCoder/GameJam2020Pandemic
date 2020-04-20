@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Gun : MonoBehaviour
+public class Gun : MonoBehaviour, Weapon
 {
     [SerializeField] private Transform _barrel;
     [SerializeField] private GameObject _bullet;
@@ -16,7 +16,7 @@ public class Gun : MonoBehaviour
 
     void Update()
     {
-        Fire();
+        //Fire();
         if (_currentCooldown <= _cooldown)
             _currentCooldown += Time.deltaTime;
     }
