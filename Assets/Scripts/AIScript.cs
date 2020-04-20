@@ -15,6 +15,8 @@ public class AIScript : MonoBehaviour
     private AIVision vision;
     private GameObject player;
 
+    [SerializeField] private Animator animator;
+
 
     [SerializeField] private float speed;
     [SerializeField] private Transform[] moveSpots;
@@ -204,6 +206,14 @@ public class AIScript : MonoBehaviour
         }
 
         agent.SetDestination(target.position);
+
+        float horiz, vert;
+        horiz = target.position.x - transform.position.x;
+        vert = target.position.y - transform.position.y;
+        var maxAbs = Mathf.Max(Mathf.Abs(horiz), Mathf.Abs(vert));
+
+        //animator.SetFloat("Horizontal", Mathf.Abs(horiz) > Mathf.Abs(vert) ? Mathf.Abs(horiz) / horiz : 0);
+        //animator.SetFloat("Vertical", Mathf.Abs(horiz) < Mathf.Abs(vert) ? Mathf.Abs(vert) / vert : 0);
     }
 
     private void SetDestinationToPoint(Vector3 target, bool lookAt = false)
