@@ -612,10 +612,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c964026234f91c45b4368d2cefecb1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 10
+  _speed: 4
   _maxHP: 100
   _maxCharge: 100
-  getBombed: 0
+  getConfused: 0
   _timeConfused: 0.9
   animator: {fileID: 1263804620}
 --- !u!50 &8968008893425615707

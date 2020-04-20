@@ -49,7 +49,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.64
-  m_Speed: 1.5
+  m_Speed: 4
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -73,10 +73,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57970156a51541044ac37d35c6221f03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
+  speed: 4
   moveSpots: []
   randomSpot: 0
-  defWaitTime: 5
+  defWaitTime: 0
   waitTime: 0
   rotationSpeed: 1.5
   defChaseTime: 5
@@ -118,7 +118,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.0041049123, y: -0.0020522475}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -129,7 +129,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.8850738, y: 0.8317157}
   m_EdgeRadius: 0
 --- !u!198 &8542649863907961808
 ParticleSystem:

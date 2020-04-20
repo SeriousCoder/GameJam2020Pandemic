@@ -12,6 +12,7 @@ public class Dzot : MonoBehaviour
     private GameObject player;
     private Camera mainCamera;
     private AIVision vision;
+    [SerializeField] private float ActiveDis = 6;
     [SerializeField] private DzotState state;
     [SerializeField] private float rotationSpeed = 0.5f;
     private Vector3 initPos;
@@ -31,7 +32,7 @@ public class Dzot : MonoBehaviour
         vision = new AIVision();
         vision.ActiveAng = 90;
         vision.ActiveAng2 = 180;
-        vision.ActiveDis = 8;
+        vision.ActiveDis = ActiveDis;
         vision.ActiveRad = 1;        
         state = DzotState.Idle;
         initPos = transform.position;

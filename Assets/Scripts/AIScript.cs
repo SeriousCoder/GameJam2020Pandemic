@@ -62,7 +62,7 @@ public class AIScript : MonoBehaviour
         agent.updateRotation = false;
         agent.updateUpAxis = false;
 
-        randomSpot = Random.Range(0, moveSpots.Length);
+        randomSpot = 0;
         state = BotState.Idle;
 
         getConfused = false;
@@ -119,12 +119,14 @@ public class AIScript : MonoBehaviour
                     if (moveSpots.Length > 0)
                     {
                         state = BotState.Patrol;
-                        randomSpot = Random.Range(0, moveSpots.Length);
+                        //randomSpot = Random.Range(0, moveSpots.Length);
                         SetDestinationToPoint(moveSpots[randomSpot], true);
                         waitTime = defWaitTime;
                     }
-
-                    SetDestinationToPoint(initPos, true);
+                    else
+                    {
+                        SetDestinationToPoint(initPos, true);
+                    }
 
                     if (Vector2.Distance(initPos, transform.position) < 0.1f)
                     {
@@ -133,12 +135,12 @@ public class AIScript : MonoBehaviour
 
                     break;
                 case BotState.Patrol:
-                    //Debug.Log(Vector2.Distance(moveSpots[randomSpot].position, transform.position));
+                    Debug.Log(Vector2.Distance(moveSpots[randomSpot].position, transform.position));
                     if (Vector2.Distance(moveSpots[randomSpot].position, transform.position) < 0.1f)
                     {
                         if (waitTime <= 0)
                         {
-                            randomSpot = Random.Range(0, moveSpots.Length);
+                            randomSpot = (randomSpot + 1) % moveSpots.Length;
                             SetDestinationToPoint(moveSpots[randomSpot]);
                             waitTime = defWaitTime;
                         }
@@ -148,6 +150,9 @@ public class AIScript : MonoBehaviour
                             waitTime -= Time.deltaTime;
                         }
                     }
+
+                    Debug.Log(moveSpots[randomSpot].position);
+
                     SetDestinationToPoint(moveSpots[randomSpot]);
 
                     break;
@@ -179,13 +184,13 @@ public class AIScript : MonoBehaviour
                 SetDestinationToPoint(player.transform, true);
             }
 
-            //for (int i = 0; i < agent.path.corners.Length - 1; i++)
-            //{
-            //    Debug.DrawLine(agent.path.corners[i], agent.path.corners[i + 1], Color.red);
-            //}
+            for (int i = 0; i < agent.path.corners.Length - 1; i++)
+            {
+                Debug.DrawLine(agent.path.corners[i], agent.path.corners[i + 1], Color.gray);
+            }
             if (agent.path.corners.Length > 1) LookAtPoint(agent.path.corners[1]);
         }
-        DrawVisionRadius();
+        //DrawVisionRadius();
     }
 
     private void SetDestinationToPoint(Transform target, bool lookAt = false)
