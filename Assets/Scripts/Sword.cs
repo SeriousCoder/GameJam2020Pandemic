@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Sword : MonoBehaviour
+public class Sword : MonoBehaviour, Weapon
 {
     [SerializeField] private int _damage = 5;
     [SerializeField] private float _cdDamage = 0.8f;
@@ -17,11 +17,11 @@ public class Sword : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Atack();
+        //Fire()
         _currentCdDamage += Time.deltaTime;
     }
 
-    public void Atack()
+    public void Fire()
     {
         _animation.Play();
     }
