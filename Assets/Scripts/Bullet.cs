@@ -13,6 +13,7 @@ public class Bullet : MonoBehaviour
 
     void Start()
     {
+        FindObjectOfType<AudioManager>().Play("Shot");
         Destroy(gameObject, _lifeTime);
     }
 
