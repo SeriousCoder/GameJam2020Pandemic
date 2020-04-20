@@ -66,6 +66,8 @@ public class PlayerController : MonoBehaviour
             animator.SetFloat("Speed", _rb.velocity.sqrMagnitude);
             animator.SetFloat("Horizontal", MoveX);
             animator.SetFloat("Vertical", MoveY);
+
+            if(_rb.velocity.sqrMagnitude>0) FindObjectOfType<AudioManager>().Play("Step");
             //rotate
             //if (MoveX * MoveX > MoveY * MoveY)
             //{
