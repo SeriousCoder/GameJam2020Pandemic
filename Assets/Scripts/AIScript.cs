@@ -90,6 +90,7 @@ public class AIScript : MonoBehaviour
         rb.velocity = Vector2.zero;
         GetComponent<BoxCollider2D>().enabled = false;
         if (particleSystem.isPlaying) particleSystem.Stop();
+        FindObjectOfType<AudioManager>().Play("Death");
 
     }
     
@@ -270,6 +271,7 @@ public class AIScript : MonoBehaviour
             PlayerController PlayerController = collision.gameObject.GetComponent<PlayerController>();
             //PlayerController.StartAnimation(); //Стартовать анимацию оглушения
             getConfused = true;
+            FindObjectOfType<AudioManager>().Play("Strike");
         }
     }
 }
