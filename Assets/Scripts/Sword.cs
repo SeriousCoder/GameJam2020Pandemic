@@ -35,6 +35,7 @@ public class Sword : MonoBehaviour
             var enemy = collision.gameObject.GetComponent<PlayerController>();
             enemy.GetDamage(_damage);
             _currentCdDamage = 0f;
+            FindObjectOfType<AudioManager>().Play("Metal");
         }
     }
 

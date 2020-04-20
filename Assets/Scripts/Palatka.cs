@@ -12,6 +12,7 @@ public class Palatka : MonoBehaviour
             PlayerController.transform.position = transform.position;
             PlayerController.getConfused = true;
             PlayerController.transform.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+            FindObjectOfType<AudioManager>().Play("Tent");
         }
     }
 }
