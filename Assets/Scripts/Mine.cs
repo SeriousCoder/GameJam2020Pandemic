@@ -21,6 +21,7 @@ public class Mine : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        FindObjectOfType<AudioManager>().Play("Explosion");
         Boom();
     }
 

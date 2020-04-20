@@ -615,7 +615,7 @@ MonoBehaviour:
   _speed: 10
   _maxHP: 100
   _maxCharge: 100
-  getBombed: 0
+  getConfused: 0
   _timeConfused: 0.9
   animator: {fileID: 1263804620}
 --- !u!50 &8968008893425615707
