@@ -131,6 +131,8 @@ MonoBehaviour:
   _bullet: {fileID: 2543906012843604842, guid: 0350cd7ee5978494fa5f61432ab84331, type: 3}
   _cooldown: 0.7
   ActiveDis: 6
+  ActiveAng: 360
+  ActiveAng2: 180
   state: 0
   rotationSpeed: 0.5
 --- !u!61 &4348475158959526226
