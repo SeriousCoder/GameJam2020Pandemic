@@ -40,6 +40,7 @@ public class PlayerController : MonoBehaviour
     //hardcode for next level
     public void NextLevel()
     {
+        Time.timeScale = 1;
         if (SceneManager.GetActiveScene().name != "Scene02")
         {
             SceneManager.UnloadSceneAsync("Scene01");

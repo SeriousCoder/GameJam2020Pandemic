@@ -34,6 +34,7 @@ public class EndOfLevelTrigger : MonoBehaviour
             }
             else
             {
+                Time.timeScale = 0;
                 GameOverPanel.gameObject.SetActive(true);
                 isEnd = true;
             }
