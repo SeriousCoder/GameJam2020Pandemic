@@ -139,7 +139,7 @@ public class AIScript : MonoBehaviour
 
                     break;
                 case BotState.Patrol:
-                    Debug.Log(Vector2.Distance(moveSpots[randomSpot].position, transform.position));
+                    //Debug.Log(Vector2.Distance(moveSpots[randomSpot].position, transform.position));
                     if (Vector2.Distance(moveSpots[randomSpot].position, transform.position) < 0.1f)
                     {
                         if (waitTime <= 0)
@@ -155,7 +155,7 @@ public class AIScript : MonoBehaviour
                         }
                     }
 
-                    Debug.Log(moveSpots[randomSpot].position);
+                    //Debug.Log(moveSpots[randomSpot].position);
 
                     SetDestinationToPoint(moveSpots[randomSpot]);
 

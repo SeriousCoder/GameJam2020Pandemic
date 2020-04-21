@@ -13,6 +13,8 @@ public class Dzot : MonoBehaviour
     private Camera mainCamera;
     private AIVision vision;
     [SerializeField] private float ActiveDis = 6;
+    [SerializeField] private float ActiveAng = 0;
+    [SerializeField] private float ActiveAng2 = 180;
     [SerializeField] private DzotState state;
     [SerializeField] private float rotationSpeed = 0.5f;
     private Vector3 initPos;

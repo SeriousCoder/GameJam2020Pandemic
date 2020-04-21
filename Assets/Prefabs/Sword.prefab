@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1992243867946789087}
   - component: {fileID: 1992243867946789073}
   - component: {fileID: 7698340258276971292}
+  - component: {fileID: 5615167602133153986}
   m_Layer: 0
   m_Name: Sword
   m_TagString: Untagged
@@ -33,7 +34,7 @@ Transform:
   - {fileID: 1992243868719521485}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 40}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!111 &1992243867946789087
 Animation:
   m_ObjectHideFlags: 0
@@ -64,6 +65,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _damage: 5
   _cdDamage: 0.8
+  _animation: {fileID: 1992243867946789087}
 --- !u!61 &7698340258276971292
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -90,6 +92,25 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.049266815, y: 0.66806364}
   m_EdgeRadius: 0
+--- !u!95 &5615167602133153986
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1992243867946789086}
+  m_Enabled: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1992243868719521484
 GameObject:
   m_ObjectHideFlags: 0

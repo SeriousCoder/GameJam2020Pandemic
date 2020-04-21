@@ -7,11 +7,11 @@ public class Sword : MonoBehaviour, Weapon
     [SerializeField] private int _damage = 5;
     [SerializeField] private float _cdDamage = 0.8f;
     private float _currentCdDamage;
-    private Animation _animation;
+    [SerializeField] private Animation _animation;
     // Start is called before the first frame update
     void Start()
     {
-        _animation = GetComponent <Animation>();
+        _animation = transform.GetComponent <Animation>();
     }
 
     // Update is called once per frame

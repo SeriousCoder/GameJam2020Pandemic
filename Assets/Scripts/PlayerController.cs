@@ -36,6 +36,21 @@ public class PlayerController : MonoBehaviour
         Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
+
+    //hardcode for next level
+    public void NextLevel()
+    {
+        if (SceneManager.GetActiveScene().name != "Scene02")
+        {
+            SceneManager.UnloadSceneAsync("Scene01");
+            SceneManager.LoadScene("Scene02");
+        }
+        else
+        {
+            SceneManager.LoadScene("SceneTY");
+        }
+    }
+
     void Update()
     {
         if (!dead && (_currentHP <= 0 || _currentCharge <= 0)) Die();
